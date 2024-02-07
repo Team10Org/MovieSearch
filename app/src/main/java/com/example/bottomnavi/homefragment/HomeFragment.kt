@@ -122,7 +122,6 @@ class HomeFragment : Fragment() {
         communicateNetWork(setUpVideoParameter())
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun communicateNetWork(param: HashMap<String, String>) =
         lifecycleScope.launch() {
 
@@ -146,7 +145,6 @@ class HomeFragment : Fragment() {
             } else {
                 // 데이터가 없을 경우에 대한 처리
             }
-
         }
 
     private fun setUpVideoParameter(): HashMap<String, String> {
