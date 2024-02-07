@@ -150,14 +150,13 @@ class HomeFragment : Fragment() {
 
         }
 
-
     private fun setUpVideoParameter(): HashMap<String, String> {
         val authKey = BuildConfig.youtube_api_key
         return hashMapOf(
             "key" to authKey,
             "part" to "snippet,statistics",
             "chart" to "mostPopular",
-            "maxResults" to "10",
+            "maxResults" to "20",
             "regionCode" to "kr",
             "videoCategoryId" to "17"
         )
