@@ -136,7 +136,8 @@ class HomeFragment : Fragment() {
                         title = item.snippet.title,
                         thumbnail = item.snippet.thumbnails.default.url,
                         content = item.snippet.description,
-                        isLike = false
+                        isLike = false,
+                        views = item.statistics.viewCount.toInt()
                     )
                     videoList.add(videoItem)
                 }
@@ -154,7 +155,7 @@ class HomeFragment : Fragment() {
         val authKey = BuildConfig.youtube_api_key
         return hashMapOf(
             "key" to authKey,
-            "part" to "snippet",
+            "part" to "snippet,statistics",
             "chart" to "mostPopular",
             "maxResults" to "10",
             "regionCode" to "kr",
