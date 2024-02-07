@@ -140,7 +140,7 @@ class HomeFragment : Fragment() {
                     )
                     videoList.add(videoItem)
                 }
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     adapter.submitList(videoList.toList())
                 }
             } else {
