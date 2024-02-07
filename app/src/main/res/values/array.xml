@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tag_array">
+        <item>예고편</item>
+        <item>영화 리뷰</item>
+        <item>OST</item>
+        <item>명장면</item>
+        <item>영화 패러디</item>
+    </string-array>
+</resources>
