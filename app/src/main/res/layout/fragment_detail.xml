@@ -7,7 +7,6 @@
     tools:context=".DetailFragment">
 
     <ImageView
-        android:id="@+id/iv_"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:src="@drawable/spinner_background"
