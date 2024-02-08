@@ -3,8 +3,8 @@ package com.example.bottomnavi.homefragment
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
-sealed interface MyVideo {
-
+sealed interface MyVideo : Parcelable{
+    @Parcelize
     data class MyVideoItems(
         val videoUri: String?,
         var title: String,
