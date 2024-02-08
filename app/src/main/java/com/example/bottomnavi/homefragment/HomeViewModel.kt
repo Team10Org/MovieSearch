@@ -68,4 +68,11 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    fun onClickItem(
+        position: Int,
+        item: MyVideo
+    ) {
+
+    }
+
 }
