@@ -1,6 +1,5 @@
 package com.example.bottomnavi.homefragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -15,30 +14,32 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.bottomnavi.BuildConfig
 import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.FragmentHomeBinding
-import com.example.bottomnavi.retrofit.Contract
-import com.example.bottomnavi.retrofit.NetWorkClient
-import com.example.bottomnavi.retrofit.Snippet
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: VideoAdapter
+
+    private var selectedTag: String? = null
 
     companion object {
-        var videoList: ArrayList<MyVideoItems> = ArrayList()
+        var videoList: ArrayList<MyVideo.MyVideoItems> = ArrayList()
+        var likeList: ArrayList<MyVideo.MyVideoItems> = ArrayList()
     }
 
     private val viewModel by lazy {
         ViewModelProvider(this)[HomeViewModel::class.java]
+    }
+
+    private val listAdapter: VideoAdapter by lazy {
+        VideoAdapter(
+            onClickItem = { position, item ->
+
+            }
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,16 +61,16 @@ class HomeFragment : Fragment() {
             communicateNetWork(it)
         }
         searchResult.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+            listAdapter.submitList(it)
+        }
+        filterVideo.observe(viewLifecycleOwner) {
+            listAdapter.submitList(it)
         }
     }
 
     private fun initView() {
+        binding.videoRecycler.adapter = listAdapter
         spinnerSetting()
-        adapter = VideoAdapter { position, videoItem ->
-
-        }
-        binding.videoRecycler.adapter = adapter
         binding.videoRecycler.layoutManager = GridLayoutManager(context, 2)
         viewModel.setUpVideoParameter()
     }
@@ -111,27 +112,8 @@ class HomeFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                when (position) {
-                    0 -> {
-
-                    }
-
-                    1 -> {
-
-                    }
-
-                    2 -> {
-
-                    }
-
-                    3 -> {
-
-                    }
-
-                    else -> {
-
-                    }
-                }
+                selectedTag = items[position]
+                viewModel.filterVideoList(selectedTag)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
