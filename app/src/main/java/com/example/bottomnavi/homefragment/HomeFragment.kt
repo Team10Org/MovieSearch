@@ -13,6 +13,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -31,12 +32,15 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: VideoAdapter
-    companion object{
+
+    companion object {
         var videoList: ArrayList<MyVideoItems> = ArrayList()
     }
-    private val viewModel by lazy{
+
+    private val viewModel by lazy {
         ViewModelProvider(this)[HomeViewModel::class.java]
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -51,11 +55,11 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun initViewModel() = with(viewModel){
-        searchParam.observe(viewLifecycleOwner){
+    private fun initViewModel() = with(viewModel) {
+        searchParam.observe(viewLifecycleOwner) {
             communicateNetWork(it)
         }
-        searchResult.observe(viewLifecycleOwner){
+        searchResult.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
     }
@@ -69,6 +73,7 @@ class HomeFragment : Fragment() {
         binding.videoRecycler.layoutManager = GridLayoutManager(context, 2)
         viewModel.setUpVideoParameter()
     }
+
 
     private fun spinnerSetting() {
         val items = resources.getStringArray(R.array.tag_array)
