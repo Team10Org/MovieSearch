@@ -1,8 +1,6 @@
 package com.example.bottomnavi.homefragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,24 +11,32 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.bottomnavi.BuildConfig
 import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.FragmentHomeBinding
-import com.example.bottomnavi.retrofit.Contract
-import com.example.bottomnavi.retrofit.NetWorkClient
-import com.example.bottomnavi.retrofit.Snippet
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private var videoList: ArrayList<MyVideoItems> = ArrayList()
-    private lateinit var adapter: VideoAdapter
+    private var selectedTag: String? = null
+    companion object{
+        var videoList: ArrayList<MyVideo.MyVideoItems> = ArrayList()
+    }
+    private val viewModel by lazy{
+        ViewModelProvider(this)[HomeViewModel::class.java]
+    }
+    private val listAdapter: VideoAdapter by lazy{
+        VideoAdapter(
+            onClickItem = {position, item ->
+                viewModel.onClickItem(
+                    position,
+                    item
+                )
+            }
+        )
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -41,17 +47,27 @@ class HomeFragment : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         initView()
+        initViewModel()
         return binding.root
     }
 
-    private fun initView() {
-        spinnerSetting()
-        adapter = VideoAdapter { position, videoItem ->
-
+    private fun initViewModel() = with(viewModel){
+        searchParam.observe(viewLifecycleOwner){
+            communicateNetWork(it)
         }
-        binding.videoRecycler.adapter = adapter
+        searchResult.observe(viewLifecycleOwner){
+            listAdapter.submitList(it)
+        }
+        filterVideo.observe(viewLifecycleOwner){
+            listAdapter.submitList(it)
+        }
+    }
+
+    private fun initView() {
+        binding.videoRecycler.adapter = listAdapter
+        spinnerSetting()
         binding.videoRecycler.layoutManager = GridLayoutManager(context, 2)
-        youtubeApi()
+        viewModel.setUpVideoParameter()
     }
 
     private fun spinnerSetting() {
@@ -90,76 +106,14 @@ class HomeFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                when (position) {
-                    0 -> {
-
-                    }
-
-                    1 -> {
-
-                    }
-
-                    2 -> {
-
-                    }
-
-                    3 -> {
-
-                    }
-
-                    else -> {
-
-                    }
-                }
+                selectedTag = items[position]
+                viewModel.filterVideoList(selectedTag)
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
     }
 
-    private fun youtubeApi() {
-        communicateNetWork(setUpVideoParameter())
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun communicateNetWork(param: HashMap<String, String>) =
-        lifecycleScope.launch() {
-
-            val responseData = NetWorkClient.youtubeNetWork.getYoutubeVideo(param)
-            val searchItems = responseData.items
-
-            if (searchItems.isNotEmpty()) {
-                for (item in searchItems) {
-                    val videoItem = MyVideoItems(
-                        videoUri = item.id,
-                        title = item.snippet.title,
-                        thumbnail = item.snippet.thumbnails.default.url,
-                        content = item.snippet.description,
-                        isLike = false
-                    )
-                    videoList.add(videoItem)
-                }
-                withContext(Dispatchers.Main){
-                    adapter.submitList(videoList.toList())
-                }
-            } else {
-                // 데이터가 없을 경우에 대한 처리
-            }
-
-        }
-
-    private fun setUpVideoParameter(): HashMap<String, String> {
-        val authKey = BuildConfig.youtube_api_key
-        return hashMapOf(
-            "key" to authKey,
-            "part" to "snippet",
-            "chart" to "mostPopular",
-            "maxResults" to "20",
-            "regionCode" to "kr",
-            "videoCategoryId" to "17"
-        )
-    }
 
     override fun onDestroyView() {
         _binding = null
