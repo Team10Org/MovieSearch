@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun initViewModel() =with(viewModel){
+    private fun initViewModel() = with(viewModel){
         searchParam.observe(viewLifecycleOwner){
             communicateNetWork(it)
         }
