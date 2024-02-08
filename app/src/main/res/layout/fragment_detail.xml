@@ -7,7 +7,7 @@
     tools:context=".DetailFragment">
 
     <ImageView
-        android:id="@+id/iv_"
+        android:id="@+id/item_thumbnail"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:src="@drawable/spinner_background"
@@ -16,83 +16,88 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:id="@+id/item_title"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="동영상 제목"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/iv_"
-        app:layout_constraintTop_toBottomOf="@+id/iv_" />
+        app:layout_constraintStart_toStartOf="@+id/item_thumbnail"
+        app:layout_constraintTop_toBottomOf="@+id/item_thumbnail" />
 
     <ImageView
+        android:id="@+id/item_isLike"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:src="@drawable/empty_heart"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintBottom_toBottomOf="@+id/item_share"
+        app:layout_constraintEnd_toStartOf="@+id/item_share"
+        app:layout_constraintTop_toTopOf="@+id/item_share" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/item_share"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/share"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_" />
+        app:layout_constraintTop_toBottomOf="@+id/item_thumbnail" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/circleImageView"
+        android:id="@+id/item_picture"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@drawable/home"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintStart_toStartOf="@+id/item_title"
+        app:layout_constraintTop_toBottomOf="@+id/item_title" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/item_uplodar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="업로더"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/circleImageView"
-        app:layout_constraintTop_toTopOf="@+id/circleImageView" />
+        app:layout_constraintStart_toEndOf="@+id/item_picture"
+        app:layout_constraintTop_toTopOf="@+id/item_picture" />
 
     <TextView
+        android:id="@+id/item_viewCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="조회수"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintStart_toStartOf="@+id/item_uplodar"
+        app:layout_constraintTop_toBottomOf="@+id/item_uplodar" />
 
     <TextView
+        android:id="@+id/item_published"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="게시일"
         android:textSize="15sp"
         android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="@+id/item_share"
+        app:layout_constraintStart_toStartOf="@+id/item_share"
+        app:layout_constraintTop_toBottomOf="@+id/item_share" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/circleImageView"
+        app:layout_constraintTop_toBottomOf="@+id/item_picture"
         tools:layout_editor_absoluteX="16dp">
 
         <TextView
+            android:id="@+id/item_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"

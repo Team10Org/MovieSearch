@@ -1,12 +1,16 @@
 package com.example.bottomnavi.homefragment
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.bottomnavi.DetailFragment
+import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.UnknownItemBinding
 import com.example.bottomnavi.databinding.VideoItemBinding
 
@@ -67,10 +71,26 @@ class VideoAdapter(
             Glide.with(binding.root).load(item.thumbnail).into(binding.videoImage)
 
             container.setOnClickListener{
-                onClickItem(
-                    adapterPosition,
-                    item
+                val myData = MyVideo.MyVideoItems(
+                    item.videoUri,
+                    item.title,
+                    item.thumbnail,
+                    item.content,
+                    item.isLike,
+                    item.views,
+                    item.tags,
+                    item.channelTitle,
+                    item.publishedAt
                 )
+                val bundle = Bundle().apply {
+                    putParcelable("videoItem", myData)
+                }
+                val detailFragment = DetailFragment()
+                detailFragment.arguments = bundle
+                val transaction = (container.context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.linearLayout, detailFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
             }
         }
     }
