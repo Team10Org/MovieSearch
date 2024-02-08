@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bottomnavi.DetailFragment
 import com.example.bottomnavi.R
-import com.example.bottomnavi.databinding.UnknownItemBinding
 import com.example.bottomnavi.databinding.VideoItemBinding
 
 class VideoAdapter(
@@ -33,27 +32,14 @@ class VideoAdapter(
     }
 ){
     abstract class VideoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         abstract fun onBind(item: MyVideo)
     }
 
-    override fun getItemViewType(position: Int): Int = when (getItem(position)) {
-        is MyVideo.MyVideoItems -> VideoListViewType.ITEM
-        else -> VideoListViewType.UNKNOWN
-    }.ordinal
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder =
-        when(VideoListViewType.from(viewType)){
-            VideoListViewType.ITEM -> VideoItemViewHolder(
+            VideoItemViewHolder(
                 VideoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
                 onClickItem
             )
-            else -> VideoUnknownViewHolder(
-                UnknownItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            )
-        }
-
-
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         holder.onBind(getItem(position))
@@ -93,10 +79,5 @@ class VideoAdapter(
                 transaction.commit()
             }
         }
-    }
-    class VideoUnknownViewHolder(
-        binding: UnknownItemBinding
-    ) : VideoViewHolder(binding.root) {
-        override fun onBind(item: MyVideo) = Unit
     }
 }
