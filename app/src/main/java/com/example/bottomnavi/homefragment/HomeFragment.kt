@@ -30,10 +30,6 @@ class HomeFragment : Fragment() {
     private val listAdapter: VideoAdapter by lazy{
         VideoAdapter(
             onClickItem = {position, item ->
-                viewModel.onClickItem(
-                    position,
-                    item
-                )
             }
         )
     }
