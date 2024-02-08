@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bottomnavi.databinding.FragmentMypageItemRecyclerviewBinding
-import com.example.bottomnavi.homefragment.MyVideoItems
+import com.example.bottomnavi.homefragment.MyVideo
 
-class MypageAdapter(private var mItems: MutableList<MyVideoItems>) :
+class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
     RecyclerView.Adapter<MypageAdapter.MyVideoViewHolder>() {
 
     inner class MyVideoViewHolder(binding: FragmentMypageItemRecyclerviewBinding) :

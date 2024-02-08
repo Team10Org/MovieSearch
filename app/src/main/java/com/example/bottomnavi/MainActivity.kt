@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.example.bottomnavi.databinding.ActivityMainBinding
 import com.example.bottomnavi.homefragment.HomeFragment
 import com.example.bottomnavi.mypagefragment.MypageFragment
+import com.example.bottomnavi.searchfragment.SearchFragment
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
