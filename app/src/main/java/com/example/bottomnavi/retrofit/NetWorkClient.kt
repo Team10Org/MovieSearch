@@ -25,7 +25,7 @@ object NetWorkClient {
             .build()
     }
 
-    private val youtubeRetrofit = Retrofit.Builder()
+    val youtubeRetrofit = Retrofit.Builder()
         .baseUrl(Contract.SERVICE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(createOkHttpClient())
