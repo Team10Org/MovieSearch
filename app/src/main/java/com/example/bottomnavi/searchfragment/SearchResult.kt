@@ -1,24 +1,11 @@
 package com.example.bottomnavi.searchfragment
 
-import com.example.bottomnavi.retrofit.PageInfo
 import com.google.gson.annotations.SerializedName
-import com.google.type.DateTime
-import java.time.LocalDateTime
 
 data class SearchResult(
-    val kind: String,
-    val etag: String,
-    val nextPageToken: String,
-    val prevPageToken: String,
     val regionCode: String,
-    val pageInfo: PageInfo,
     @SerializedName("items")
     val items: List<SearchItems>
-)
-
-data class PageInfo(
-    val totalResults: Int,
-    val resultsPerPage: Int
 )
 
 data class SearchItems(
@@ -30,18 +17,20 @@ data class SearchItems(
 )
 
 data class Id(
-    val videoId: String
+    val videoId: String,
 )
 
 data class Snippet(
     val publishedAt: String,
     val title: String,
     val thumbnails: Thumbnails,
-    val channelTitle: String
+    val channelTitle: String,
+    val channelId: String
 )
 
 data class Thumbnails(
-    val default: Key
+    val default: Key,
+    val medium: Key
 )
 
 data class Key(

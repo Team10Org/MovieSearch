@@ -25,6 +25,13 @@ interface SearchNetWorkInterface {
     ): SearchResult
 }
 
+interface ChannelNetWorkInterface {
+    @GET("channels")
+    suspend fun getYoutubeVideo(
+        @QueryMap param: HashMap<String, String>
+    ): ChannelResult
+}
+
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -47,7 +54,8 @@ class SearchFragment : Fragment() {
                 "key" to BuildConfig.youtube_api_key,
                 "part" to "snippet",
                 "maxResults" to "25",
-                "q" to binding.etSearch.text.toString()
+                "q" to binding.etSearch.text.toString(),
+                "type" to "video"
             ))
         }
 
@@ -69,10 +77,18 @@ class SearchFragment : Fragment() {
                         "id" to item.id.videoId,
                         "regionCode" to "kr"
                     ))
+                    val findpfp = NetWorkClient.youtubeRetrofit.create(ChannelNetWorkInterface::class.java).getYoutubeVideo(
+                        hashMapOf(
+                            "key" to BuildConfig.youtube_api_key,
+                            "part" to "snippet",
+                            "id" to item.snippet.channelId
+                        )
+                    )
                     val videoItem = SearchItem(
                         videoUri = item.id.videoId,
                         title = item.snippet.title,
-                        thumbnail = item.snippet.thumbnails.default.url,
+                        thumbnail = item.snippet.thumbnails.medium.url,
+                        pfp = findpfp.items[0].snippet.thumbnails.medium.url,
                         uploader = item.snippet.channelTitle,
                         uploadTime = item.snippet.publishedAt,
                         views = findviews.items[0].statistics.viewCount
