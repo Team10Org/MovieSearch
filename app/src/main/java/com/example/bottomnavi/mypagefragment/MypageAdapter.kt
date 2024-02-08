@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bottomnavi.databinding.FragmentMypageItemRecyclerviewBinding
+import com.example.bottomnavi.homefragment.HomeFragment
 import com.example.bottomnavi.homefragment.MyVideo
 
 class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
@@ -20,12 +21,12 @@ class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MypageAdapter.MyVideoViewHolder {
+    ): MyVideoViewHolder {
         val binding = FragmentMypageItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return MyVideoViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MypageAdapter.MyVideoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyVideoViewHolder, position: Int) {
         holder.title.text = mItems[position].title
         Glide.with(holder.itemView.context)
             .load(mItems[position].thumbnail)
@@ -33,9 +34,12 @@ class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
         holder.views.text = mItems[position].views.toString()
     }
 
+    override fun getItemId(position: Int): Long {
+        return getItemId(position)
+    }
+
     override fun getItemCount(): Int {
         return mItems.size
     }
-
 
 }

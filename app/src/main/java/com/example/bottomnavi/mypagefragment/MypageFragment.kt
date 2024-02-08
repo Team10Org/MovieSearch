@@ -31,7 +31,7 @@ class MypageFragment : Fragment() {
     }
 
     private fun initView(){
-        adapter = MypageAdapter(HomeFragment.videoList)
+        adapter = MypageAdapter(HomeFragment.likeList)
         binding.rvMyVideos.adapter = adapter
         binding.rvMyVideos.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -39,5 +39,10 @@ class MypageFragment : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
     }
 }

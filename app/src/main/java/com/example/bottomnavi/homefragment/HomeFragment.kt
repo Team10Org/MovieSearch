@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
 
     companion object {
         var videoList: ArrayList<MyVideo.MyVideoItems> = ArrayList()
-        var likeList: ArrayList<MyVideo.MyVideoItems> = ArrayList()
+        var likeList = mutableListOf<MyVideo.MyVideoItems>()
     }
 
     private val viewModel by lazy {
