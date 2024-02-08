@@ -3,8 +3,8 @@
     <string-array name="tag_array">
         <item>축구</item>
         <item>아시안컵</item>
-        <item>토트넘</item>
         <item>손흥민</item>
+        <item>토트넘</item>
         <item>한국</item>
     </string-array>
 </resources>

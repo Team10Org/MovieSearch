@@ -1,8 +1,6 @@
 package com.example.bottomnavi.homefragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,29 +12,30 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.bottomnavi.BuildConfig
 import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.FragmentHomeBinding
-import com.example.bottomnavi.retrofit.Contract
-import com.example.bottomnavi.retrofit.NetWorkClient
-import com.example.bottomnavi.retrofit.Snippet
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: VideoAdapter
     private var selectedTag: String? = null
     companion object{
-        var videoList: ArrayList<MyVideoItems> = ArrayList()
+        var videoList: ArrayList<MyVideo.MyVideoItems> = ArrayList()
     }
     private val viewModel by lazy{
         ViewModelProvider(this)[HomeViewModel::class.java]
+    }
+    private val listAdapter: VideoAdapter by lazy{
+        VideoAdapter(
+            onClickItem = {position, item ->
+                viewModel.onClickItem(
+                    position,
+                    item
+                )
+            }
+        )
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,24 +51,21 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun initViewModel() =with(viewModel){
+    private fun initViewModel() = with(viewModel){
         searchParam.observe(viewLifecycleOwner){
             communicateNetWork(it)
         }
         searchResult.observe(viewLifecycleOwner){
-            adapter.submitList(it)
+            listAdapter.submitList(it)
         }
         filterVideo.observe(viewLifecycleOwner){
-            adapter.submitList(it)
+            listAdapter.submitList(it)
         }
     }
 
     private fun initView() {
+        binding.videoRecycler.adapter = listAdapter
         spinnerSetting()
-        adapter = VideoAdapter { position, videoItem ->
-
-        }
-        binding.videoRecycler.adapter = adapter
         binding.videoRecycler.layoutManager = GridLayoutManager(context, 2)
         viewModel.setUpVideoParameter()
     }

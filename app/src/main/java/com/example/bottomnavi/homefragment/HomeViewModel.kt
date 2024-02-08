@@ -13,10 +13,10 @@ import kotlinx.coroutines.launch
 class HomeViewModel : ViewModel() {
     private val _searchParam: MutableLiveData<HashMap<String, String>> = MutableLiveData()
     val searchParam: LiveData<HashMap<String, String>> get() = _searchParam
-    private val _searchResult: MutableLiveData<List<MyVideoItems>> = MutableLiveData()
-    val searchResult: LiveData<List<MyVideoItems>> get() = _searchResult
-    private val _filterVideo: MutableLiveData<List<MyVideoItems>> = MutableLiveData()
-    val filterVideo: LiveData<List<MyVideoItems>> get() = _filterVideo
+    private val _searchResult: MutableLiveData<List<MyVideo>> = MutableLiveData()
+    val searchResult: LiveData<List<MyVideo>> get() = _searchResult
+    private val _filterVideo: MutableLiveData<List<MyVideo>> = MutableLiveData()
+    val filterVideo: LiveData<List<MyVideo>> get() = _filterVideo
 
     fun setUpVideoParameter() {
         val authKey = BuildConfig.youtube_api_key
@@ -37,14 +37,16 @@ class HomeViewModel : ViewModel() {
 
             if (searchItems.isNotEmpty()) {
                 for (item in searchItems) {
-                    val videoItem = MyVideoItems(
+                    val videoItem = MyVideo.MyVideoItems(
                         videoUri = item.id,
                         title = item.snippet.title,
                         thumbnail = item.snippet.thumbnails.default.url,
                         content = item.snippet.description,
                         isLike = false,
                         views = item.statistics.viewCount.toInt(),
-                        tags = item.snippet.tags
+                        tags = item.snippet.tags,
+                        channelTitle = item.snippet.channelTitle,
+                        publishedAt = item.snippet.publishedAt
                     )
                     videoList.add(videoItem)
                 }
