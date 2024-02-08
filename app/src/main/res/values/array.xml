@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="tag_array">
-        <item>예고편</item>
-        <item>영화 리뷰</item>
-        <item>OST</item>
-        <item>명장면</item>
-        <item>영화 패러디</item>
+        <item>축구</item>
+        <item>아시안컵</item>
+        <item>토트넘</item>
+        <item>손흥민</item>
+        <item>한국</item>
     </string-array>
 </resources>

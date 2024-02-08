@@ -31,6 +31,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: VideoAdapter
+    private var selectedTag: String? = null
     companion object{
         var videoList: ArrayList<MyVideoItems> = ArrayList()
     }
@@ -56,6 +57,9 @@ class HomeFragment : Fragment() {
             communicateNetWork(it)
         }
         searchResult.observe(viewLifecycleOwner){
+            adapter.submitList(it)
+        }
+        filterVideo.observe(viewLifecycleOwner){
             adapter.submitList(it)
         }
     }
@@ -106,29 +110,9 @@ class HomeFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                when (position) {
-                    0 -> {
-
-                    }
-
-                    1 -> {
-
-                    }
-
-                    2 -> {
-
-                    }
-
-                    3 -> {
-
-                    }
-
-                    else -> {
-
-                    }
-                }
+                selectedTag = items[position]
+                viewModel.filterVideoList(selectedTag)
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }

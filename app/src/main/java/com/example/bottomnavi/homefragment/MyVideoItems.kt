@@ -9,5 +9,6 @@ data class MyVideoItems(
     var thumbnail: String,
     var content: String,
     var isLike: Boolean,
-    var views: Int
+    var views: Int,
+    var tags: List<String>?
 ) : Parcelable
