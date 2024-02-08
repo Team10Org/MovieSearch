@@ -38,7 +38,7 @@ class SearchAdapter(
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(videoItem: SearchItem) {
             binding.tvVideoTitle.text = videoItem.title
-            TODO("체널 프로필 사진이 안 나오는 것 고치기")
+//            TODO("체널 프로필 사진이 안 나오는 것 고치기")
             Glide.with(binding.root).load(videoItem.thumbnail).into(binding.imgThumbnail)
             Glide.with(binding.root).load(videoItem.pfp).into(binding.imgPfp)
             binding.tvViewCount.text = "%,d".format(videoItem.views.toLong()) + "회"
