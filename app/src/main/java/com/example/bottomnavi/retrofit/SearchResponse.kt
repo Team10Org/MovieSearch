@@ -21,8 +21,15 @@ data class SearchItems(
     val id: String,
     val kind: String,
     @SerializedName("snippet")
-    val snippet: Snippet
+    val snippet: Snippet,
+    @SerializedName("statistics")
+    val statistics: Statistic
 )
+
+data class Statistic (
+    val viewCount: String
+)
+
 data class Snippet(
     val publishedAt: String,
     val channelId: String,

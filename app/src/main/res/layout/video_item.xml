@@ -9,7 +9,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="5dp">
 
         <ImageView
             android:id="@+id/videoImage"
@@ -33,6 +33,7 @@
         android:ellipsize="end"
         android:layout_marginLeft="15dp"
         android:maxLines="1"
+        android:layout_marginBottom="20dp"
         android:layout_gravity="center"
         android:textSize="15sp"
         android:textStyle="bold"/>
