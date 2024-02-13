@@ -56,6 +56,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
     implementation("com.google.ar.sceneform:filament-android:1.17.1")
     implementation("com.google.firebase:protolite-well-known-types:18.0.0")
+    implementation("androidx.media3:media3-common:1.2.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -72,6 +73,8 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     //뷰모델
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    //유튜브재생
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 
     implementation("com.squareup.okhttp3:logging-interceptor:3.3.1")
 }

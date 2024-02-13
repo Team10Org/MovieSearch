@@ -1,21 +1,16 @@
 package com.example.bottomnavi.searchfragment
 
 import android.os.Build
-import android.os.Bundle
 import com.example.bottomnavi.searchfragment.SearchItem
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.bottomnavi.DetailFragment
-import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.ItemSearchBinding
-import com.example.bottomnavi.homefragment.MyVideo
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -43,34 +38,12 @@ class SearchAdapter(
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(videoItem: SearchItem) {
             binding.tvVideoTitle.text = videoItem.title
+//            TODO("체널 프로필 사진이 안 나오는 것 고치기")
             Glide.with(binding.root).load(videoItem.thumbnail).into(binding.imgThumbnail)
             Glide.with(binding.root).load(videoItem.pfp).into(binding.imgPfp)
             binding.tvViewCount.text = "%,d".format(videoItem.views.toLong()) + "회"
             binding.tvVideoTitle.text = videoItem.title
             binding.tvVideoOther.text = videoItem.uploader+"  "+videoItem.uploadTime.take(10)
-
-            binding.root.setOnClickListener{
-                val myData = MyVideo.MyVideoItems(
-                    videoItem.videoUri,
-                    videoItem.title,
-                    videoItem.thumbnail,
-                    videoItem.content,
-                    videoItem.isLike,
-                    videoItem.views.toInt(),
-                    videoItem.tags,
-                    videoItem.uploader,
-                    videoItem.uploadTime
-                )
-                val bundle = Bundle().apply {
-                    putParcelable("videoItem", myData)
-                }
-                val detailFragment = DetailFragment()
-                detailFragment.arguments = bundle
-                val transaction = (binding.root.context as AppCompatActivity).supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.linearLayout, detailFragment)
-                transaction.addToBackStack(null)
-                transaction.commit()
-            }
         }
     }
 
