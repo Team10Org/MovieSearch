@@ -16,10 +16,10 @@
             android:id="@+id/cl_rvItem"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:paddingStart="20dp"
+            android:paddingStart="8dp"
             android:paddingTop="4dp"
-            android:paddingEnd="20dp"
             android:paddingBottom="4dp"
+            android:paddingEnd="8dp"
             app:layout_constraintEnd_toStartOf="@+id/cl_like"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,7 +49,7 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:ellipsize="end"
@@ -57,6 +57,7 @@
                 android:text="제목"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_thumbnail"
                 app:layout_constraintTop_toTopOf="@id/iv_thumbnail" />
 
