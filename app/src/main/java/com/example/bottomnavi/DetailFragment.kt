@@ -46,25 +46,63 @@ class DetailFragment : Fragment() {
             itemViewCount.text = data?.views.toString()
             itemPublished.text = data?.publishedAt
             itemContent.text = data?.content
+            if (data?.isLike == false) {
+                itemIsLike.setImageResource(R.drawable.empty_heart)
+            } else {
+                itemIsLike.setImageResource(R.drawable.heart)
+            }
         }
         Glide.with(binding.root).load(data?.thumbnail).into(binding.itemThumbnail)
         Glide.with(binding.root).load(data?.thumbnail).into(binding.itemPicture)
 
         binding.itemIsLike.setOnClickListener {
-            likeList.add(
-                MyVideo.MyVideoItems(
-                    data?.videoUri,
-                    data?.title,
-                    data?.thumbnail,
-                    data?.content,
-                    data?.isLike,
-                    data?.views,
-                    data?.tags,
-                    data?.channelTitle,
-                    data?.publishedAt
+            if (!likeList.contains(
+                    MyVideo.MyVideoItems(
+                        data?.videoUri,
+                        data?.title,
+                        data?.thumbnail,
+                        data?.content,
+                        data?.isLike,
+                        data?.views,
+                        data?.tags,
+                        data?.channelTitle,
+                        data?.publishedAt
+                    )
                 )
-            )
-            Log.d("Detail","likeList = ${likeList}")
+            ) {
+                data?.isLike = true
+                binding.itemIsLike.setImageResource(R.drawable.heart)
+                likeList.add(
+                    MyVideo.MyVideoItems(
+                        data?.videoUri,
+                        data?.title,
+                        data?.thumbnail,
+                        data?.content,
+                        data?.isLike,
+                        data?.views,
+                        data?.tags,
+                        data?.channelTitle,
+                        data?.publishedAt
+                    )
+                )
+            } else {
+                data?.isLike = false
+                binding.itemIsLike.setImageResource(R.drawable.empty_heart)
+                likeList.remove(
+                    MyVideo.MyVideoItems(
+                        data?.videoUri,
+                        data?.title,
+                        data?.thumbnail,
+                        data?.content,
+                        data?.isLike,
+                        data?.views,
+                        data?.tags,
+                        data?.channelTitle,
+                        data?.publishedAt
+                    )
+                )
+            }
+            Log.d("Detail", "likeList = ${likeList}")
         }
     }
 
