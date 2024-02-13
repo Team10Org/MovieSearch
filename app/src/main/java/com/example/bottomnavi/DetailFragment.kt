@@ -1,17 +1,21 @@
 package com.example.bottomnavi
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.bottomnavi.databinding.FragmentDetailBinding
 import com.example.bottomnavi.homefragment.HomeFragment.Companion.likeList
 import com.example.bottomnavi.homefragment.MyVideo
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
@@ -31,6 +35,7 @@ class DetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,13 +45,16 @@ class DetailFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initView() {
         val data = arguments?.getParcelable<MyVideo.MyVideoItems>("videoItem")
         with(binding) {
             itemTitle.text = data?.title
             itemUplodar.text = data?.channelTitle
-            itemViewCount.text = data?.views.toString()
-            itemPublished.text = data?.publishedAt
+            itemViewCount.text = "%,d".format(data?.views?.toLong())+"회"
+            val parsed = OffsetDateTime.parse(data?.publishedAt)
+            val formatter = parsed.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            itemPublished.text = formatter
             itemContent.text = data?.content
             if (data?.isLike == false) {
                 itemIsLike.setImageResource(R.drawable.empty_heart)
