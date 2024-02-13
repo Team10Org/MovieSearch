@@ -46,14 +46,14 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        adapter = SearchAdapter() { position, videoItem -> }
+        adapter = SearchAdapter( { position, videoItem -> })
         binding.rvSearch.adapter = adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
         binding.tvSearchBtn.setOnClickListener {
             communicateNetWork(hashMapOf(
                 "key" to BuildConfig.youtube_api_key,
                 "part" to "snippet",
-                "maxResults" to "25",
+                "maxResults" to "10",
                 "q" to binding.etSearch.text.toString(),
                 "type" to "video"
             ))
@@ -73,7 +73,7 @@ class SearchFragment : Fragment() {
                 for (item in searchItems) {
                     val findviews = NetWorkClient.youtubeNetWork.getYoutubeVideo(hashMapOf(
                         "key" to BuildConfig.youtube_api_key,
-                        "part" to "statistics",
+                        "part" to "snippet,statistics",
                         "id" to item.id.videoId,
                         "regionCode" to "kr"
                     ))
@@ -91,7 +91,10 @@ class SearchFragment : Fragment() {
                         pfp = findpfp.items[0].snippet.thumbnails.medium.url,
                         uploader = item.snippet.channelTitle,
                         uploadTime = item.snippet.publishedAt,
-                        views = findviews.items[0].statistics.viewCount
+                        views = findviews.items[0].statistics.viewCount,
+                        isLike = false,
+                        content = findviews.items[0].snippet.description,
+                        tags = findviews.items[0].snippet.tags
                     )
                     videoList.add(videoItem)
                 }

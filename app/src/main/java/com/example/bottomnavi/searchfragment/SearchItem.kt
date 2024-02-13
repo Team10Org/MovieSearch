@@ -12,5 +12,8 @@ data class SearchItem(
     var pfp: String,
     var uploader: String,
     var uploadTime: String,
-    var views: String
+    var views: String,
+    var isLike: Boolean,
+    var tags: List<String>?,
+    var content: String
 ) : Parcelable
