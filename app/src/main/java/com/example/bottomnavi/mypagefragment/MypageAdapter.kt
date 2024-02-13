@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.bottomnavi.DetailFragment
 import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.FragmentMypageItemRecyclerviewBinding
+import com.example.bottomnavi.homefragment.HomeFragment.Companion.likeList
 import com.example.bottomnavi.homefragment.MyVideo
 
 class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
@@ -23,6 +24,7 @@ class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
         val items = binding.clRvItem
         val uploader = binding.tvUploader
         val datetime = binding.tvDatetime
+        val like = binding.ivLike
     }
 
     override fun onCreateViewHolder(
@@ -58,7 +60,7 @@ class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
                 mItems[position].channelTitle,
                 mItems[position].publishedAt
             )
-            Log.d("checking","isLike : ${mItems[position].isLike}")
+            Log.d("checking", "isLike : ${mItems[position].isLike}")
             val bundle = Bundle().apply {
                 putParcelable("videoItem", myData)
             }
@@ -68,6 +70,23 @@ class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
                 .replace(R.id.linearLayout, detailFragment)
                 .addToBackStack(null)
                 .commit()
+        }
+
+        holder.like.setOnClickListener {
+            likeList.remove(
+                MyVideo.MyVideoItems(
+                    mItems[position].videoUri,
+                    mItems[position].title,
+                    mItems[position].thumbnail,
+                    mItems[position].content,
+                    mItems[position].isLike,
+                    mItems[position].views,
+                    mItems[position].tags,
+                    mItems[position].channelTitle,
+                    mItems[position].publishedAt
+                )
+            )
+            notifyItemRemoved(position)
         }
     }
 
