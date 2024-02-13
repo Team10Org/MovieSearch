@@ -29,7 +29,7 @@ class HomeFragment : Fragment() {
 
     companion object {
         var videoList: ArrayList<MyVideo.MyVideoItems> = ArrayList()
-        var channelList = mutableListOf<MyChannel.MyChannelItems>()
+        var channelList = mutableListOf<MyChannelItems>()
         var likeList = mutableListOf<MyVideo.MyVideoItems>()
     }
 
@@ -72,6 +72,12 @@ class HomeFragment : Fragment() {
         }
         searchResult.observe(viewLifecycleOwner) {
             listAdapter.submitList(it)
+        }
+        searchChannelParam.observe(viewLifecycleOwner){
+            communicateChannelNetWork(it)
+        }
+        searchChannelResult.observe(viewLifecycleOwner){
+            channelListAdapter.submitList(it)
         }
         searchChannelResult.observe(viewLifecycleOwner){
             channelListAdapter.submitList(it)
