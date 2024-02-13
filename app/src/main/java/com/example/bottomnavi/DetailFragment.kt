@@ -10,6 +10,8 @@ import com.bumptech.glide.Glide
 import com.example.bottomnavi.databinding.FragmentDetailBinding
 import com.example.bottomnavi.homefragment.HomeFragment.Companion.likeList
 import com.example.bottomnavi.homefragment.MyVideo
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
 class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
@@ -52,7 +54,17 @@ class DetailFragment : Fragment() {
                 itemIsLike.setImageResource(R.drawable.heart)
             }
         }
-        Glide.with(binding.root).load(data?.thumbnail).into(binding.itemThumbnail)
+        val youtubePlayer = binding.youtubePlayerView
+        lifecycle.addObserver(youtubePlayer)
+        youtubePlayer.addYouTubePlayerListener(object :
+        AbstractYouTubePlayerListener(){
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                val videoId = data?.videoUri
+                if (videoId != null) {
+                    youTubePlayer.loadVideo(videoId, 0f)
+                }
+            }
+        })
         Glide.with(binding.root).load(data?.thumbnail).into(binding.itemPicture)
 
         val myItem = MyVideo.MyVideoItems(
