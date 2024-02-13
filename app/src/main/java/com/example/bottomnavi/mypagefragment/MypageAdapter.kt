@@ -5,15 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bottomnavi.DetailFragment
 import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.FragmentMypageItemRecyclerviewBinding
-import com.example.bottomnavi.homefragment.HomeFragment
 import com.example.bottomnavi.homefragment.MyVideo
-import kotlin.coroutines.coroutineContext
 
 class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
     RecyclerView.Adapter<MypageAdapter.MyVideoViewHolder>() {
@@ -61,6 +58,7 @@ class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
                 mItems[position].channelTitle,
                 mItems[position].publishedAt
             )
+            Log.d("checking","isLike : ${mItems[position].isLike}")
             val bundle = Bundle().apply {
                 putParcelable("videoItem", myData)
             }

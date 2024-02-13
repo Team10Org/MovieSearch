@@ -55,54 +55,24 @@ class DetailFragment : Fragment() {
         Glide.with(binding.root).load(data?.thumbnail).into(binding.itemThumbnail)
         Glide.with(binding.root).load(data?.thumbnail).into(binding.itemPicture)
 
+        val myItem = MyVideo.MyVideoItems(
+            data?.videoUri,
+            data?.title,
+            data?.thumbnail,
+            data?.content,
+            true,
+            data?.views,
+            data?.tags,
+            data?.channelTitle,
+            data?.publishedAt)
         binding.itemIsLike.setOnClickListener {
-            if (!likeList.contains(
-                    MyVideo.MyVideoItems(
-                        data?.videoUri,
-                        data?.title,
-                        data?.thumbnail,
-                        data?.content,
-                        data?.isLike,
-                        data?.views,
-                        data?.tags,
-                        data?.channelTitle,
-                        data?.publishedAt
-                    )
-                )
-            ) {
-                data?.isLike = true
-                binding.itemIsLike.setImageResource(R.drawable.heart)
-                likeList.add(
-                    MyVideo.MyVideoItems(
-                        data?.videoUri,
-                        data?.title,
-                        data?.thumbnail,
-                        data?.content,
-                        data?.isLike,
-                        data?.views,
-                        data?.tags,
-                        data?.channelTitle,
-                        data?.publishedAt
-                    )
-                )
-            } else {
-                data?.isLike = false
+            if (likeList.contains(myItem)) {
                 binding.itemIsLike.setImageResource(R.drawable.empty_heart)
-                likeList.remove(
-                    MyVideo.MyVideoItems(
-                        data?.videoUri,
-                        data?.title,
-                        data?.thumbnail,
-                        data?.content,
-                        data?.isLike,
-                        data?.views,
-                        data?.tags,
-                        data?.channelTitle,
-                        data?.publishedAt
-                    )
-                )
+                likeList.remove(myItem)
+            } else {
+                binding.itemIsLike.setImageResource(R.drawable.heart)
+                likeList.add(myItem)
             }
-            Log.d("Detail", "likeList = ${likeList}")
         }
     }
 
