@@ -46,6 +46,11 @@ class DetailFragment : Fragment() {
             itemViewCount.text = data?.views.toString()
             itemPublished.text = data?.publishedAt
             itemContent.text = data?.content
+            if (data?.isLike == false) {
+                itemIsLike.setImageResource(R.drawable.empty_heart)
+            } else {
+                itemIsLike.setImageResource(R.drawable.heart)
+            }
         }
         Glide.with(binding.root).load(data?.thumbnail).into(binding.itemThumbnail)
         Glide.with(binding.root).load(data?.thumbnail).into(binding.itemPicture)
@@ -65,6 +70,7 @@ class DetailFragment : Fragment() {
                     )
                 )
             ) {
+                data?.isLike = true
                 binding.itemIsLike.setImageResource(R.drawable.heart)
                 likeList.add(
                     MyVideo.MyVideoItems(
@@ -80,6 +86,7 @@ class DetailFragment : Fragment() {
                     )
                 )
             } else {
+                data?.isLike = false
                 binding.itemIsLike.setImageResource(R.drawable.empty_heart)
                 likeList.remove(
                     MyVideo.MyVideoItems(
