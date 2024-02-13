@@ -15,8 +15,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.FragmentHomeBinding
+import java.nio.channels.Channel
 
 
 class HomeFragment : Fragment() {
@@ -27,6 +29,7 @@ class HomeFragment : Fragment() {
 
     companion object {
         var videoList: ArrayList<MyVideo.MyVideoItems> = ArrayList()
+        var channelList = mutableListOf<MyChannel.MyChannelItems>()
         var likeList = mutableListOf<MyVideo.MyVideoItems>()
     }
 
@@ -36,6 +39,13 @@ class HomeFragment : Fragment() {
 
     private val listAdapter: VideoAdapter by lazy {
         VideoAdapter(
+            onClickItem = { position, item ->
+
+            }
+        )
+    }
+    private val channelListAdapter: ChannelAdapter by lazy {
+        ChannelAdapter(
             onClickItem = { position, item ->
 
             }
@@ -63,15 +73,21 @@ class HomeFragment : Fragment() {
         searchResult.observe(viewLifecycleOwner) {
             listAdapter.submitList(it)
         }
+        searchChannelResult.observe(viewLifecycleOwner){
+            channelListAdapter.submitList(it)
+        }
         filterVideo.observe(viewLifecycleOwner) {
             listAdapter.submitList(it)
         }
     }
 
     private fun initView() {
+        binding.channelNameRecycler.adapter = channelListAdapter
+        binding.channelNameRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
         binding.videoRecycler.adapter = listAdapter
-        spinnerSetting()
         binding.videoRecycler.layoutManager = GridLayoutManager(context, 2)
+        spinnerSetting()
         viewModel.setUpVideoParameter()
     }
 

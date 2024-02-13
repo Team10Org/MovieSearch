@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bottomnavi.BuildConfig
+import com.example.bottomnavi.homefragment.HomeFragment.Companion.channelList
 import com.example.bottomnavi.homefragment.HomeFragment.Companion.videoList
 import com.example.bottomnavi.retrofit.NetWorkClient
 import kotlinx.coroutines.launch
@@ -15,6 +16,8 @@ class HomeViewModel : ViewModel() {
     val searchParam: LiveData<HashMap<String, String>> get() = _searchParam
     private val _searchResult: MutableLiveData<List<MyVideo>> = MutableLiveData()
     val searchResult: LiveData<List<MyVideo>> get() = _searchResult
+    private val _searchChannelResult: MutableLiveData<List<MyChannel>> = MutableLiveData()
+    val searchChannelResult: LiveData<List<MyChannel>> get() = _searchChannelResult
     private val _filterVideo: MutableLiveData<List<MyVideo>> = MutableLiveData()
     val filterVideo: LiveData<List<MyVideo>> get() = _filterVideo
 
@@ -50,8 +53,15 @@ class HomeViewModel : ViewModel() {
                     )
                     videoList.add(videoItem)
                 }
-                Log.d("HomeViewModel", "비디어 리스트 태그확인 : $videoList")
                 _searchResult.value = videoList
+                for(item in searchItems){
+                    val channelItem = MyChannel.MyChannelItems(
+                        thumbnail = item.snippet.thumbnails.default.url,
+                        channelId = item.snippet.channelTitle
+                    )
+                    channelList.add(channelItem)
+                }
+                _searchChannelResult.value = channelList
             } else {
                 // 데이터가 없을 경우에 대한 처리
             }
