@@ -64,7 +64,13 @@ class DetailFragment : Fragment() {
             data?.views,
             data?.tags,
             data?.channelTitle,
-            data?.publishedAt)
+            data?.publishedAt
+        )
+        if(likeList.contains(myItem)){
+            binding.itemIsLike.setImageResource(R.drawable.heart)
+        } else{
+            binding.itemIsLike.setImageResource(R.drawable.empty_heart)
+        }
         binding.itemIsLike.setOnClickListener {
             if (likeList.contains(myItem)) {
                 binding.itemIsLike.setImageResource(R.drawable.empty_heart)
