@@ -10,25 +10,25 @@ import com.bumptech.glide.Glide
 import com.example.bottomnavi.databinding.ChannelItemBinding
 
 class ChannelAdapter(
-    private val onClickItem: (Int, MyChannel) -> Unit,
-) : ListAdapter<MyChannel, ChannelAdapter.ChannelViewHolder>(
-    object : DiffUtil.ItemCallback<MyChannel>(){
+    private val onClickItem: (Int, MyChannelItems) -> Unit,
+) : ListAdapter<MyChannelItems, ChannelAdapter.ChannelViewHolder>(
+    object : DiffUtil.ItemCallback<MyChannelItems>(){
         override fun areItemsTheSame(
-            oldItem: MyChannel,
-            newItem: MyChannel
-        ): Boolean = if(oldItem is MyChannel.MyChannelItems && newItem is MyChannel.MyChannelItems){
+            oldItem: MyChannelItems,
+            newItem: MyChannelItems
+        ): Boolean = if(oldItem is MyChannelItems && newItem is MyChannelItems){
             oldItem.thumbnail == newItem.thumbnail
         } else{
             oldItem == newItem
         }
         override fun areContentsTheSame(
-            oldItem: MyChannel,
-            newItem: MyChannel
+            oldItem: MyChannelItems,
+            newItem: MyChannelItems
         ): Boolean = oldItem == newItem
     }
 ){
     abstract class ChannelViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        abstract fun onBind(item: MyChannel)
+        abstract fun onBind(item: MyChannelItems)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelViewHolder =
@@ -43,16 +43,13 @@ class ChannelAdapter(
 
     class ChannelItemViewHolder(
         private val binding: ChannelItemBinding,
-        private val onClickItem: (Int, MyChannel) -> Unit
+        private val onClickItem: (Int, MyChannelItems) -> Unit
     ) : ChannelViewHolder(binding.root){
-        override fun onBind(item: MyChannel) = with(binding){
-            if(item !is MyChannel.MyChannelItems) {
+        override fun onBind(item: MyChannelItems) = with(binding){
+            if(item !is MyChannelItems) {
                 return@with
             }
-            container.setOnClickListener{
-
-            }
-            channelText.text = item.channelId
+            channelText.text = item.title
             Glide.with(binding.root).load(item.thumbnail).into(binding.channelImage)
 
         }
