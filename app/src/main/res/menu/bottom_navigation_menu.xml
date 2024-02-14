@@ -15,4 +15,9 @@
         android:enabled="true"
         android:icon="@drawable/mypage"
         android:title="mypage"/>
+    <item
+        android:id="@+id/shorts"
+        android:enabled="true"
+        android:icon="@drawable/shorts"
+        android:title="shorts"/>
 </menu>

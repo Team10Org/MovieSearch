@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.FragmentHomeBinding
+import com.example.bottomnavi.shortsFragment.ShortsItems
 import java.nio.channels.Channel
 
 
@@ -31,6 +32,7 @@ class HomeFragment : Fragment() {
         var videoList: ArrayList<MyVideo.MyVideoItems> = ArrayList()
         var channelList = mutableListOf<MyChannelItems>()
         var likeList = mutableListOf<MyVideo.MyVideoItems>()
+        var shortsList = mutableListOf<ShortsItems>()
     }
 
     private val viewModel by lazy {

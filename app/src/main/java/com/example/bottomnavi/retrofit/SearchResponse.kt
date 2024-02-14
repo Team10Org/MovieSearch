@@ -24,7 +24,12 @@ data class SearchItems(
     @SerializedName("snippet")
     val snippet: Snippet,
     @SerializedName("statistics")
-    val statistics: Statistic
+    val statistics: Statistic,
+    @SerializedName("contentDetails")
+    val contentDetails: contentDetail
+)
+data class contentDetail(
+    val duration: String,
 )
 
 data class Statistic(

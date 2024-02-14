@@ -73,6 +73,8 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     //뷰모델
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    //라이프사이클
+    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
     //유튜브재생
     implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 
