@@ -1,15 +1,21 @@
 package com.example.bottomnavi.searchfragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bottomnavi.BuildConfig
+import com.example.bottomnavi.DetailFragment
+import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.FragmentSearchBinding
+import com.example.bottomnavi.homefragment.MyVideo
+import com.example.bottomnavi.homefragment.VideoAdapter
 import com.example.bottomnavi.retrofit.NetWorkClient
 import com.example.bottomnavi.retrofit.SearchResponse
 import kotlinx.coroutines.Dispatchers
@@ -35,8 +41,16 @@ interface ChannelNetWorkInterface {
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private var videoList: ArrayList<SearchItem> = ArrayList()
+    private var videoList: ArrayList<MySearchItem.SearchItem> = ArrayList()
     private lateinit var adapter: SearchAdapter
+
+    private val listAdapter: VideoAdapter by lazy {
+        VideoAdapter(
+            onClickItem = { position, item ->
+
+            }
+        )
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -46,14 +60,16 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        adapter = SearchAdapter() { position, videoItem -> }
+        adapter = SearchAdapter { position, item -> }
+
+        binding.tvSearch.text="검색어를 입력해주세요"
         binding.rvSearch.adapter = adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
         binding.tvSearchBtn.setOnClickListener {
             communicateNetWork(hashMapOf(
                 "key" to BuildConfig.youtube_api_key,
                 "part" to "snippet",
-                "maxResults" to "25",
+                "maxResults" to "10",
                 "q" to binding.etSearch.text.toString(),
                 "type" to "video"
             ))
@@ -70,10 +86,11 @@ class SearchFragment : Fragment() {
             val searchItems = responseData.items
 
             if (searchItems.isNotEmpty()) {
+                binding.tvSearch.text=""
                 for (item in searchItems) {
                     val findviews = NetWorkClient.youtubeNetWork.getYoutubeVideo(hashMapOf(
                         "key" to BuildConfig.youtube_api_key,
-                        "part" to "statistics",
+                        "part" to "snippet,statistics",
                         "id" to item.id.videoId,
                         "regionCode" to "kr"
                     ))
@@ -84,14 +101,17 @@ class SearchFragment : Fragment() {
                             "id" to item.snippet.channelId
                         )
                     )
-                    val videoItem = SearchItem(
+                    val videoItem = MySearchItem.SearchItem(
                         videoUri = item.id.videoId,
                         title = item.snippet.title,
                         thumbnail = item.snippet.thumbnails.medium.url,
                         pfp = findpfp.items[0].snippet.thumbnails.medium.url,
                         uploader = item.snippet.channelTitle,
                         uploadTime = item.snippet.publishedAt,
-                        views = findviews.items[0].statistics.viewCount
+                        views = findviews.items[0].statistics.viewCount,
+                        isLike = false,
+                        content = findviews.items[0].snippet.description,
+                        tags = findviews.items[0].snippet.tags
                     )
                     videoList.add(videoItem)
                 }
@@ -99,6 +119,9 @@ class SearchFragment : Fragment() {
                     adapter.submitList(videoList.toList())
                 }
 
+            }
+            else{
+                binding.tvSearch.text="검색 결과가 없습니다."
             }
         }
 }

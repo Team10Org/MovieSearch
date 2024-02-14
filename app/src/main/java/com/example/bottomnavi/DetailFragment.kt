@@ -3,7 +3,6 @@ package com.example.bottomnavi
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -91,17 +90,19 @@ class DetailFragment : Fragment() {
         })
         Glide.with(binding.root).load(data?.thumbnail).into(binding.itemPicture)
 
-        val myItem = MyVideo.MyVideoItems(
-            data?.videoUri,
-            data?.title,
-            data?.thumbnail,
-            data?.content,
-            true,
-            data?.views,
-            data?.tags,
-            data?.channelTitle,
-            data?.publishedAt
-        )
+        val myItem = data?.views?.let {
+            MyVideo.MyVideoItems(
+                data?.videoUri,
+                data?.title,
+                data?.thumbnail,
+                data?.content,
+                true,
+                it,
+                data?.tags,
+                data?.channelTitle,
+                data?.publishedAt
+            )
+        }
         if(likeList.contains(myItem)){
             binding.itemIsLike.setImageResource(R.drawable.heart)
         } else{
@@ -113,7 +114,9 @@ class DetailFragment : Fragment() {
                 likeList.remove(myItem)
             } else {
                 binding.itemIsLike.setImageResource(R.drawable.heart)
-                likeList.add(myItem)
+                if (myItem != null) {
+                    likeList.add(myItem)
+                }
             }
         }
     }

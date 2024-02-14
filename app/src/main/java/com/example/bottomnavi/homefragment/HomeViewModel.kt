@@ -50,7 +50,7 @@ class HomeViewModel : ViewModel() {
                         thumbnail = item.snippet.thumbnails.default.url,
                         content = item.snippet.description,
                         isLike = false,
-                        views = item.statistics.viewCount.toInt(),
+                        views = item.statistics.viewCount.toLong(),
                         tags = item.snippet.tags,
                         channelTitle = item.snippet.channelTitle,
                         publishedAt = item.snippet.publishedAt

@@ -11,7 +11,7 @@ sealed interface MyVideo : Parcelable{
         var thumbnail: String?,
         var content: String?,
         var isLike: Boolean? = false,
-        var views: Int?,
+        var views: Long,
         var tags: List<String>?,
         val channelTitle: String?,
         val publishedAt: String?,

@@ -1,59 +1,90 @@
 package com.example.bottomnavi.searchfragment
 
-import android.os.Build
-import com.example.bottomnavi.searchfragment.SearchItem
+import android.os.Bundle
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.bottomnavi.DetailFragment
+import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.ItemSearchBinding
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import com.example.bottomnavi.homefragment.MyVideo
 
 class SearchAdapter(
-    private val onClickItem: (Int, SearchItem) -> Unit,
-) : ListAdapter<SearchItem, SearchAdapter.VideoViewHolder>(VideoDiffCallback()) {
+    private val onClickItem: (Int, MySearchItem) -> Unit,
+) : ListAdapter<MySearchItem, SearchAdapter.VideoViewHolder>(
+    object : DiffUtil.ItemCallback<MySearchItem>(){
+        override fun areItemsTheSame(
+            oldItem: MySearchItem,
+            newItem: MySearchItem
+        ): Boolean = if(oldItem is MySearchItem.SearchItem && newItem is MySearchItem.SearchItem){
+            oldItem.videoUri == newItem.videoUri
+        } else{
+            oldItem == newItem
+        }
+        override fun areContentsTheSame(
+            oldItem: MySearchItem,
+            newItem: MySearchItem
+        ): Boolean = oldItem == newItem
+    }
+){
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
-        val binding = ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return VideoViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchAdapter.VideoViewHolder =
+        SearchAdapter.VideoItemViewHolder(
+            ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            onClickItem
+        )
+
+    override fun onBindViewHolder(holder: SearchAdapter.VideoViewHolder, position: Int) {
+        holder.onBind(getItem(position))
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
-        val videoItem = getItem(position)
-        holder.bind(videoItem)
-        holder.itemView.setOnClickListener {
-            onClickItem(position, videoItem)
-        }
+    abstract class VideoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        abstract fun onBind(item: MySearchItem)
     }
 
-    class VideoViewHolder(private val binding: ItemSearchBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class VideoItemViewHolder(
+        private val binding: ItemSearchBinding,
+        private val onClickItem: (Int, MySearchItem) -> Unit
+    ) : SearchAdapter.VideoViewHolder(binding.root){
+        override fun onBind(item: MySearchItem) = with(binding){
+            if(item !is MySearchItem.SearchItem) {
+                return@with
+            }
 
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun bind(videoItem: SearchItem) {
-            binding.tvVideoTitle.text = videoItem.title
-//            TODO("체널 프로필 사진이 안 나오는 것 고치기")
-            Glide.with(binding.root).load(videoItem.thumbnail).into(binding.imgThumbnail)
-            Glide.with(binding.root).load(videoItem.pfp).into(binding.imgPfp)
-            binding.tvViewCount.text = "%,d".format(videoItem.views.toLong()) + "회"
-            binding.tvVideoTitle.text = videoItem.title
-            binding.tvVideoOther.text = videoItem.uploader+"  "+videoItem.uploadTime.take(10)
-        }
-    }
+            binding.tvVideoTitle.text=item.title
+            binding.tvVideoOther.text=item.uploader+"  "+item.uploadTime
+            binding.tvViewCount.text="%,d".format(item.views.toLong())
+            Glide.with(binding.root).load(item.thumbnail).into(binding.imgThumbnail)
+            Glide.with(binding.root).load(item.pfp).into(binding.imgPfp)
 
-    private class VideoDiffCallback : DiffUtil.ItemCallback<SearchItem>() {
-        override fun areItemsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
-            return oldItem.videoUri == newItem.videoUri
-        }
-
-        override fun areContentsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
-            return oldItem == newItem
+            binding.root.setOnClickListener{
+                val myData = MyVideo.MyVideoItems(
+                    item.videoUri,
+                    item.title,
+                    item.thumbnail,
+                    item.content,
+                    item.isLike,
+                    item.views.toLong(),
+                    item.tags,
+                    item.uploader,
+                    item.uploadTime
+                )
+                val bundle = Bundle().apply {
+                    putParcelable("videoItem", myData)
+                }
+                val detailFragment = DetailFragment()
+                detailFragment.arguments = bundle
+                val transaction = (binding.root.context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.linearLayout, detailFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
         }
     }
 }
