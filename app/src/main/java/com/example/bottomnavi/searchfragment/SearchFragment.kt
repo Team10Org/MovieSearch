@@ -73,7 +73,9 @@ class SearchFragment : Fragment() {
                 "part" to "snippet",
                 "maxResults" to "10",
                 "q" to binding.etSearch.text.toString(),
-                "type" to "video"
+                "topicId" to "/m/06ntj",
+                "type" to "video",
+                "videoCategoryId" to "17"
             ))
         }
 
