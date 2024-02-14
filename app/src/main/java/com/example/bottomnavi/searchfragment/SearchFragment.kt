@@ -3,6 +3,7 @@ package com.example.bottomnavi.searchfragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -62,6 +63,7 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         adapter = SearchAdapter { position, item -> }
 
+        binding.etSearch.setText("")
         binding.tvSearch.text="검색어를 입력해주세요"
         binding.rvSearch.adapter = adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
@@ -81,6 +83,7 @@ class SearchFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun communicateNetWork(param: HashMap<String, String>) =
         lifecycleScope.launch() {
+            videoList= ArrayList()
 
             val responseData = NetWorkClient.youtubeRetrofit.create(SearchNetWorkInterface::class.java).getYoutubeVideo(param)
             val searchItems = responseData.items
@@ -103,10 +106,10 @@ class SearchFragment : Fragment() {
                     )
                     val videoItem = MySearchItem.SearchItem(
                         videoUri = item.id.videoId,
-                        title = item.snippet.title,
+                        title = Html.fromHtml(item.snippet.title, Html.FROM_HTML_MODE_LEGACY).toString(),
                         thumbnail = item.snippet.thumbnails.medium.url,
                         pfp = findpfp.items[0].snippet.thumbnails.medium.url,
-                        uploader = item.snippet.channelTitle,
+                        uploader = Html.fromHtml(item.snippet.channelTitle, Html.FROM_HTML_MODE_LEGACY).toString(),
                         uploadTime = item.snippet.publishedAt,
                         views = findviews.items[0].statistics.viewCount,
                         isLike = false,
