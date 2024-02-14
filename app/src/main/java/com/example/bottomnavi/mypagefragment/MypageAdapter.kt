@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,12 @@ import java.time.format.DateTimeFormatter
 
 class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
     RecyclerView.Adapter<MypageAdapter.MyVideoViewHolder>() {
+
+    interface ItemRemove{
+        fun onClick(view: View, position: Int)
+    }
+
+    var itemRemove: ItemRemove? = null
 
     inner class MyVideoViewHolder(binding: FragmentMypageItemRecyclerviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -96,6 +103,7 @@ class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
                 )
             )
             notifyItemRemoved(position)
+            itemRemove?.onClick(it, position)
         }
     }
 
