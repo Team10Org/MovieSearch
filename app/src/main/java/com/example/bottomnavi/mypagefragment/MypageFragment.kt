@@ -26,14 +26,27 @@ class MypageFragment : Fragment() {
     ): View? {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
         initView()
-
         return binding.root
     }
 
-    private fun initView(){
+    private fun initView() {
         adapter = MypageAdapter(HomeFragment.likeList)
         binding.rvMyVideos.adapter = adapter
         binding.rvMyVideos.layoutManager = LinearLayoutManager(requireContext())
+
+        adapter.itemRemove = object : MypageAdapter.ItemRemove {
+            override fun onClick(view: View, position: Int) {
+                if (adapter.itemCount == 0) {
+                    binding.tvNoVideos.visibility = View.VISIBLE
+                } else {
+                    binding.tvNoVideos.visibility = View.GONE
+                }
+            }
+        }
+
+        if (adapter.itemCount == 0) {
+            binding.tvNoVideos.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroy() {
