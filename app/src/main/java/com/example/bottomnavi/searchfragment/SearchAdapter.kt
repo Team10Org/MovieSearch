@@ -58,7 +58,8 @@ class SearchAdapter(
             }
 
             binding.tvVideoTitle.text=item.title
-            binding.tvVideoOther.text=item.uploader+"  "+item.uploadTime.take(10)
+            binding.tvChannelName.text=item.uploader
+            binding.tvVideoDate.text=item.uploadTime.take(10)
             binding.tvViewCount.text="%,d 회".format(item.views.toLong())
             Glide.with(binding.root).load(item.thumbnail).into(binding.imgThumbnail)
             Glide.with(binding.root).load(item.pfp).into(binding.imgPfp)
