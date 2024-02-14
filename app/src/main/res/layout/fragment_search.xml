@@ -21,7 +21,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/tvSearchBtn"
@@ -33,6 +34,7 @@
         android:layout_margin="10dp"
         android:text="검색"
         android:textSize="24dp"
+        android:textColor="@color/buttonColor"
         android:layout_weight="1"/>
     </LinearLayout>
 
@@ -55,6 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="example text"
-        android:textSize="30dp"/>
+        android:textSize="30dp"
+        android:textColor="@color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
