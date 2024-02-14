@@ -1,7 +1,6 @@
 package com.example.bottomnavi.homefragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,14 +11,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bottomnavi.DetailFragment
 import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.FragmentHomeBinding
 import com.example.bottomnavi.shortsFragment.ShortsItems
-import java.nio.channels.Channel
 
 
 class HomeFragment : Fragment() {
@@ -42,7 +40,6 @@ class HomeFragment : Fragment() {
     private val listAdapter: VideoAdapter by lazy {
         VideoAdapter(
             onClickItem = { position, item ->
-
             }
         )
     }
@@ -77,9 +74,6 @@ class HomeFragment : Fragment() {
         }
         searchChannelParam.observe(viewLifecycleOwner){
             communicateChannelNetWork(it)
-        }
-        searchChannelResult.observe(viewLifecycleOwner){
-            channelListAdapter.submitList(it)
         }
         searchChannelResult.observe(viewLifecycleOwner){
             channelListAdapter.submitList(it)
