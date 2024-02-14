@@ -7,12 +7,15 @@ import com.example.bottomnavi.databinding.ActivityMainBinding
 import com.example.bottomnavi.homefragment.HomeFragment
 import com.example.bottomnavi.mypagefragment.MypageFragment
 import com.example.bottomnavi.searchfragment.SearchFragment
+import com.example.bottomnavi.shortsFragment.ShortsFragment
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val homeFragment = HomeFragment()
     private val searchFragment = SearchFragment()
     private val mypageFragment = MypageFragment()
+    private val shortsFragment = ShortsFragment()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -29,6 +32,10 @@ class MainActivity : AppCompatActivity() {
                     }
                     R.id.search -> {
                         replaceFragment(searchFragment)
+                        true
+                    }
+                    R.id.shorts -> {
+                        replaceFragment(shortsFragment)
                         true
                     }
                     else -> false

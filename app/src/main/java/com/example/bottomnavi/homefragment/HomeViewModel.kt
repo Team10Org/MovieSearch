@@ -14,20 +14,24 @@ import kotlinx.coroutines.launch
 class HomeViewModel : ViewModel() {
     private val _searchParam: MutableLiveData<HashMap<String, String>> = MutableLiveData()
     val searchParam: LiveData<HashMap<String, String>> get() = _searchParam
+    private val _searchChannelParam: MutableLiveData<HashMap<String, String>> = MutableLiveData()
+    val searchChannelParam: LiveData<HashMap<String, String>> get() = _searchChannelParam
     private val _searchResult: MutableLiveData<List<MyVideo>> = MutableLiveData()
     val searchResult: LiveData<List<MyVideo>> get() = _searchResult
-    private val _searchChannelResult: MutableLiveData<List<MyChannel>> = MutableLiveData()
-    val searchChannelResult: LiveData<List<MyChannel>> get() = _searchChannelResult
+    private val _searchChannelResult: MutableLiveData<List<MyChannelItems>> = MutableLiveData()
+    val searchChannelResult: LiveData<List<MyChannelItems>> get() = _searchChannelResult
     private val _filterVideo: MutableLiveData<List<MyVideo>> = MutableLiveData()
     val filterVideo: LiveData<List<MyVideo>> get() = _filterVideo
+    private val channelIds = StringBuilder()
+    private val authKey = BuildConfig.youtube_api_key
 
     fun setUpVideoParameter() {
-        val authKey = BuildConfig.youtube_api_key
+        channelIds.clear()
         _searchParam.value = hashMapOf(
             "key" to authKey,
-            "part" to "snippet,statistics",
+            "part" to "snippet,statistics,contentDetails",
             "chart" to "mostPopular",
-            "maxResults" to "50",
+            "maxResults" to "49",
             "regionCode" to "kr",
             "videoCategoryId" to "17"
         )
@@ -51,19 +55,40 @@ class HomeViewModel : ViewModel() {
                         channelTitle = item.snippet.channelTitle,
                         publishedAt = item.snippet.publishedAt
                     )
+                    channelIds.append(item.snippet.channelId).append(",")
                     videoList.add(videoItem)
                 }
+                Log.d("channelIds" , "채널아이디 : ${channelIds}")
                 _searchResult.value = videoList
-                for(item in searchItems){
-                    val channelItem = MyChannel.MyChannelItems(
-                        thumbnail = item.snippet.thumbnails.default.url,
-                        channelId = item.snippet.channelTitle
-                    )
-                    channelList.add(channelItem)
-                }
-                _searchChannelResult.value = channelList
+                setUpChannelParameter()
             } else {
                 // 데이터가 없을 경우에 대한 처리
+            }
+        }
+    }
+    private fun setUpChannelParameter() {
+        _searchChannelParam.value = hashMapOf(
+            "key" to authKey,
+            "part" to "snippet",
+            "id" to channelIds.toString()
+        )
+    }
+    fun communicateChannelNetWork(param: HashMap<String, String>) {
+        viewModelScope.launch() {
+            val responseData = NetWorkClient.youtubeNetWork.channelByCategory(param)
+            val channelItems = responseData.items
+            if(channelItems.isNotEmpty()){
+                channelList.clear()
+                for(item in channelItems){
+                    channelList.add(
+                        MyChannelItems(
+                            item.id,
+                            item.snippet.thumbnails.medium.url,
+                            item.snippet.title,
+                        )
+                    )
+                }
+                _searchChannelResult.value = channelList
             }
         }
     }
@@ -77,12 +102,4 @@ class HomeViewModel : ViewModel() {
             }
         }
     }
-
-    fun onClickItem(
-        position: Int,
-        item: MyVideo
-    ) {
-
-    }
-
 }

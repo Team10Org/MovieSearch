@@ -1,7 +1,6 @@
 package com.example.bottomnavi.homefragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,13 +11,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bottomnavi.DetailFragment
 import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.FragmentHomeBinding
-import java.nio.channels.Channel
+import com.example.bottomnavi.shortsFragment.ShortsItems
 
 
 class HomeFragment : Fragment() {
@@ -29,8 +28,9 @@ class HomeFragment : Fragment() {
 
     companion object {
         var videoList: ArrayList<MyVideo.MyVideoItems> = ArrayList()
-        var channelList = mutableListOf<MyChannel.MyChannelItems>()
+        var channelList = mutableListOf<MyChannelItems>()
         var likeList = mutableListOf<MyVideo.MyVideoItems>()
+        var shortsList = mutableListOf<ShortsItems>()
     }
 
     private val viewModel by lazy {
@@ -40,7 +40,6 @@ class HomeFragment : Fragment() {
     private val listAdapter: VideoAdapter by lazy {
         VideoAdapter(
             onClickItem = { position, item ->
-
             }
         )
     }
@@ -72,6 +71,9 @@ class HomeFragment : Fragment() {
         }
         searchResult.observe(viewLifecycleOwner) {
             listAdapter.submitList(it)
+        }
+        searchChannelParam.observe(viewLifecycleOwner){
+            communicateChannelNetWork(it)
         }
         searchChannelResult.observe(viewLifecycleOwner){
             channelListAdapter.submitList(it)

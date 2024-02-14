@@ -74,6 +74,7 @@ class VideoAdapter(
                 val detailFragment = DetailFragment()
                 detailFragment.arguments = bundle
                 val transaction = (container.context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                transaction.setCustomAnimations(R.anim.slide_enter_from_left, R.anim.slide_exit_to_left, R.anim.slide_enter_from_left, R.anim.slide_exit_to_left)
                 transaction.replace(R.id.linearLayout, detailFragment)
                 transaction.addToBackStack(null)
                 transaction.commit()
