@@ -70,7 +70,7 @@ class SearchAdapter(
                     item.thumbnail,
                     item.content,
                     item.isLike,
-                    item.views.toIntOrNull() ?: 0,
+                    item.views.toLong(),
                     item.tags,
                     item.uploader,
                     item.uploadTime
