@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter
 class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
     RecyclerView.Adapter<MypageAdapter.MyVideoViewHolder>() {
 
-    interface ItemRemove{
+    interface ItemRemove {
         fun onClick(view: View, position: Int)
     }
 
@@ -57,7 +57,7 @@ class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
             .load(mItems[position].thumbnail)
             .into(holder.thumbnails)
         // 조회수 포맷
-        holder.views.text = "%,d".format(mItems[position].views?.toLong())+"회"
+        holder.views.text = "%,d".format(mItems[position].views?.toLong()) + "회"
         holder.uploader.text = mItems[position].channelTitle
         // 게시일 포맷
         val parsed = OffsetDateTime.parse(mItems[position].publishedAt)

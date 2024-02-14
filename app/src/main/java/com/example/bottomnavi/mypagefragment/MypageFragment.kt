@@ -29,7 +29,7 @@ class MypageFragment : Fragment() {
         return binding.root
     }
 
-    private fun initView(){
+    private fun initView() {
         adapter = MypageAdapter(HomeFragment.likeList)
         binding.rvMyVideos.adapter = adapter
         binding.rvMyVideos.layoutManager = LinearLayoutManager(requireContext())
