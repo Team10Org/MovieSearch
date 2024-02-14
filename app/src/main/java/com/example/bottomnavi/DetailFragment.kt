@@ -22,7 +22,7 @@ class DetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     companion object {
-        fun newInstance(data: MyVideo.MyVideoItems): DetailFragment {
+        fun newInstance(data: MyVideo): DetailFragment {
             val fragment = DetailFragment()
             val args = Bundle()
             args.putParcelable("videoItem", data)

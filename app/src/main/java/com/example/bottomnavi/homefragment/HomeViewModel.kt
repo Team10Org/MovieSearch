@@ -26,7 +26,7 @@ class HomeViewModel : ViewModel() {
     private val authKey = BuildConfig.youtube_api_key
 
     fun setUpVideoParameter() {
-        channelIds.clear() // 추가된 부분
+        channelIds.clear()
         _searchParam.value = hashMapOf(
             "key" to authKey,
             "part" to "snippet,statistics,contentDetails",
