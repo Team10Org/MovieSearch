@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bottomnavi.databinding.ShortsItemsBinding
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
@@ -39,7 +40,8 @@ class ShortsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShortsViewHolder =
         ShortsItemViewHolder(
             ShortsItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            lifecycleOwner
+            lifecycleOwner,
+            this
         )
 
     override fun onBindViewHolder(holder: ShortsViewHolder, position: Int) {
@@ -48,7 +50,8 @@ class ShortsAdapter(
 
     class ShortsItemViewHolder(
         private val binding: ShortsItemsBinding,
-        private val lifecycleOwner: LifecycleOwner
+        private val lifecycleOwner: LifecycleOwner,
+        private val adapter: ShortsAdapter
     ) : ShortsViewHolder(binding.root) {
         override fun onBind(item: ShortsItems) = with(binding){
             if(item !is ShortsItems) {
@@ -69,6 +72,21 @@ class ShortsAdapter(
                 override fun onReady(youTubePlayer: YouTubePlayer) {
                     if (id != null) {
                         youTubePlayer.loadVideo(id, 0f)
+                    }
+                }
+
+                override fun onStateChange(
+                    youTubePlayer: YouTubePlayer,
+                    state: PlayerConstants.PlayerState
+                ) {
+                    super.onStateChange(youTubePlayer, state)
+                    if(state == PlayerConstants.PlayerState.ENDED){
+                        val currentPosition = adapterPosition
+                        if (currentPosition != RecyclerView.NO_POSITION && currentPosition + 1 < adapter.itemCount) {
+                            // 다음 아이템이 있으면 다음 아이템으로 이동
+                            val nextItem = adapter.getItem(currentPosition + 1)
+                            nextItem.id?.let { youTubePlayer.loadVideo(it, 0f) }
+                        }
                     }
                 }
             })
