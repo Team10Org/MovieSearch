@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.bottomnavi.R
 import com.example.bottomnavi.databinding.FragmentHomeBinding
 import com.example.bottomnavi.databinding.FragmentShortsBinding
@@ -55,6 +56,9 @@ class ShortsFragment : Fragment() {
         shorts.adapter = listAdapter
         shorts.layoutManager = LinearLayoutManager(context)
         viewModel.setUpShortsParameter()
+
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(shorts)
     }
 
     override fun onDestroyView() {

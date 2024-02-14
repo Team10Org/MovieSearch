@@ -1,8 +1,11 @@
 package com.example.bottomnavi.shortsFragment
 
+import android.content.Context
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -54,6 +57,14 @@ class ShortsAdapter(
             val id = item.id
             val youtubePlayer = youtubePlayerShortsView
             lifecycleOwner.lifecycle.addObserver(youtubePlayer)
+
+            val displayMetrics = DisplayMetrics()
+            (binding.root.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getMetrics(displayMetrics)
+            val layoutParams = youtubePlayer.layoutParams
+            layoutParams.width = displayMetrics.widthPixels
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            youtubePlayer.layoutParams = layoutParams
+
             youtubePlayer.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
                     if (id != null) {
