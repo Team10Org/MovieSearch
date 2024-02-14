@@ -1,5 +1,6 @@
 package com.example.bottomnavi
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -60,6 +61,21 @@ class DetailFragment : Fragment() {
                 itemIsLike.setImageResource(R.drawable.empty_heart)
             } else {
                 itemIsLike.setImageResource(R.drawable.heart)
+            }
+            itemShare.setOnClickListener {
+                val videoUrl = data?.videoUri
+                if(!videoUrl.isNullOrBlank()){
+                    val sendIntent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, videoUrl)
+                        type = "text/plain"
+                    }
+
+                    val shareIntent = Intent.createChooser(sendIntent, null)
+                    startActivity(shareIntent)
+                } else{
+
+                }
             }
         }
         val youtubePlayer = binding.youtubePlayerView
