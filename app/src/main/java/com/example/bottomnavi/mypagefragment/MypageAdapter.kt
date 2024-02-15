@@ -74,7 +74,8 @@ class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
                 mItems[position].views,
                 mItems[position].tags,
                 mItems[position].channelTitle,
-                mItems[position].publishedAt
+                mItems[position].publishedAt,
+                mItems[position].channelImage,
             )
             Log.d("checking", "isLike : ${mItems[position].isLike}")
             val bundle = Bundle().apply {
@@ -99,7 +100,8 @@ class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
                     mItems[position].views,
                     mItems[position].tags,
                     mItems[position].channelTitle,
-                    mItems[position].publishedAt
+                    mItems[position].publishedAt,
+                    mItems[position].channelImage,
                 )
             )
             notifyDataSetChanged()

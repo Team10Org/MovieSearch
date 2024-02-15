@@ -15,5 +15,6 @@ sealed interface MyVideo : Parcelable{
         var tags: List<String>?,
         val channelTitle: String?,
         val publishedAt: String?,
+        val channelImage: String?,
     ) : MyVideo
 }

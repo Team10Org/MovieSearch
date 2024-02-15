@@ -88,7 +88,7 @@ class DetailFragment : Fragment() {
                 }
             }
         })
-        Glide.with(binding.root).load(data?.thumbnail).into(binding.itemPicture)
+        Glide.with(binding.root).load(data?.channelImage).into(binding.itemPicture)
 
         val myItem = data?.views?.let {
             MyVideo.MyVideoItems(
@@ -100,7 +100,8 @@ class DetailFragment : Fragment() {
                 it,
                 data?.tags,
                 data?.channelTitle,
-                data?.publishedAt
+                data?.publishedAt,
+                data?.channelImage
             )
         }
         if(likeList.contains(myItem)){
