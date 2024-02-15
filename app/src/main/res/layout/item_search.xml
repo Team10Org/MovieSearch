@@ -63,45 +63,35 @@
             android:textColor="@color/white"
             android:maxLines="1"
             android:ellipsize="end"
-            app:layout_constraintBottom_toTopOf="@id/linlayVideoOther"
+            app:layout_constraintBottom_toTopOf="@id/tvChannelName"
             app:layout_constraintStart_toEndOf="@id/cvPfp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/linlayVideoOther"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tvChannelName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="180dp"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvVideoDate"
             app:layout_constraintStart_toEndOf="@id/cvPfp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvVideoTitle"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <TextView
-                android:id="@+id/tvChannelName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvVideoDate"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvVideoTitle" />
-            <TextView
-                android:id="@+id/tvVideoDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:textSize="16dp"
-                android:textColor="@color/white"
-                android:maxLines="1"
-                app:layout_constraintStart_toEndOf="@id/tvChannelName"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:gravity="start"/>
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/tvVideoTitle" />
+        <TextView
+            android:id="@+id/tvVideoDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            app:layout_constraintStart_toEndOf="@id/tvChannelName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="start"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
