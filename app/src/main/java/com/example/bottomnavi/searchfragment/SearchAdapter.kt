@@ -68,13 +68,14 @@ class SearchAdapter(
                 val myData = MyVideo.MyVideoItems(
                     item.videoUri,
                     item.title,
-                    item.thumbnail,
+                    item.pfp,
                     item.content,
                     item.isLike,
                     item.views.toLong(),
                     item.tags,
                     item.uploader,
-                    item.uploadTime
+                    item.uploadTime,
+                    item.pfp
                 )
                 val bundle = Bundle().apply {
                     putParcelable("videoItem", myData)

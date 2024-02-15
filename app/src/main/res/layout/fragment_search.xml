@@ -34,7 +34,8 @@
         android:layout_margin="10dp"
         android:text="검색"
         android:textSize="24dp"
-        android:textColor="@color/buttonColor"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/buttonColor"
         android:layout_weight="1"/>
     </LinearLayout>
 

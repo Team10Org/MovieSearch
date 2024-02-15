@@ -44,6 +44,11 @@ class HomeViewModel : ViewModel() {
 
             if (searchItems.isNotEmpty()) {
                 for (item in searchItems) {
+                    val responseChannelData = NetWorkClient.youtubeNetWork.channelByCategory(hashMapOf(
+                        "key" to authKey,
+                        "part" to "snippet",
+                        "id" to item.snippet.channelId
+                    ))
                     val videoItem = MyVideo.MyVideoItems(
                         videoUri = item.id,
                         title = item.snippet.title,
@@ -53,10 +58,12 @@ class HomeViewModel : ViewModel() {
                         views = item.statistics.viewCount.toLong(),
                         tags = item.snippet.tags,
                         channelTitle = item.snippet.channelTitle,
-                        publishedAt = item.snippet.publishedAt
+                        publishedAt = item.snippet.publishedAt,
+                        channelImage = responseChannelData.items[0].snippet.thumbnails.default.url
                     )
                     channelIds.append(item.snippet.channelId).append(",")
                     videoList.add(videoItem)
+
                 }
                 Log.d("channelIds" , "채널아이디 : ${channelIds}")
                 _searchResult.value = videoList

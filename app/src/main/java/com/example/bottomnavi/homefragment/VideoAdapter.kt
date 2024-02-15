@@ -55,7 +55,6 @@ class VideoAdapter(
             }
             videoTitle.text = item.title
             Glide.with(binding.root).load(item.thumbnail).into(binding.videoImage)
-
             container.setOnClickListener{
                 val myData = MyVideo.MyVideoItems(
                     item.videoUri,
@@ -66,7 +65,8 @@ class VideoAdapter(
                     item.views,
                     item.tags,
                     item.channelTitle,
-                    item.publishedAt
+                    item.publishedAt,
+                    item.channelImage
                 )
                 val bundle = Bundle().apply {
                     putParcelable("videoItem", myData)
