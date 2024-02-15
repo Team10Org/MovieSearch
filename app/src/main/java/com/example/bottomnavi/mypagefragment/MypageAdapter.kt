@@ -102,7 +102,7 @@ class MypageAdapter(private var mItems: MutableList<MyVideo.MyVideoItems>) :
                     mItems[position].publishedAt
                 )
             )
-            notifyItemRemoved(position)
+            notifyDataSetChanged()
             itemRemove?.onClick(it, position)
         }
     }
