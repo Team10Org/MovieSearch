@@ -10,11 +10,11 @@ fun getApiKey(propertyKey: String): String{
 }
 
 android {
-    namespace = "com.example.bottomnavi"
+    namespace = "com.example.Sportube"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.bottomnavi"
+        applicationId = "com.example.Sportube"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
