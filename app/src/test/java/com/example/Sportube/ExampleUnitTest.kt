@@ -1,4 +1,4 @@
-package com.example.bottomnavi
+package com.example.Sportube
 
 import org.junit.Test
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tag_array">
+        <item>손흥민</item>
+        <item>아시안컵</item>
+        <item>축구</item>
+        <item>토트넘</item>
+    </string-array>
+</resources>

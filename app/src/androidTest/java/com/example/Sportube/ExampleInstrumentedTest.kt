@@ -1,4 +1,4 @@
-package com.example.bottomnavi
+package com.example.Sportube
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

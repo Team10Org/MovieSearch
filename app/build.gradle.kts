@@ -1,20 +1,27 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
+    id("kotlin-kapt")
+}
+fun getApiKey(propertyKey: String): String{
+    return gradleLocalProperties(rootDir).getProperty(propertyKey)
 }
 
 android {
-    namespace = "com.example.bottomnavi"
+    namespace = "com.example.Sportube"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.bottomnavi"
+        applicationId = "com.example.Sportube"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "youtube_api_key", getApiKey("youtube_api_key"))
     }
 
     buildTypes {
@@ -35,6 +42,7 @@ android {
     }
     buildFeatures{
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -46,7 +54,29 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    implementation("com.google.ar.sceneform:filament-android:1.17.1")
+    implementation("com.google.firebase:protolite-well-known-types:18.0.0")
+    implementation("androidx.media3:media3-common:1.2.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    //동그란이미지
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    //gson, retrofit
+    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    //glide
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+    //뷰모델
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    //라이프사이클
+    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    //유튜브재생
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+
+    implementation("com.squareup.okhttp3:logging-interceptor:3.3.1")
 }
