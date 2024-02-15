@@ -1,12 +1,14 @@
 package com.example.Sportube.searchfragment
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.Sportube.BuildConfig
@@ -63,6 +65,7 @@ class SearchFragment : Fragment() {
         binding.rvSearch.adapter = adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
         binding.tvSearchBtn.setOnClickListener {
+            binding.root.hideKeyboardInput()
             communicateNetWork(hashMapOf(
                 "key" to BuildConfig.youtube_api_key,
                 "part" to "snippet",
@@ -124,4 +127,8 @@ class SearchFragment : Fragment() {
                 binding.tvSearch.text= getString(R.string.search_fragment_no_value)
             }
         }
+    private fun View.hideKeyboardInput() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
 }
