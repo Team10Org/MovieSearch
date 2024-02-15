@@ -64,7 +64,7 @@ class SearchFragment : Fragment() {
         adapter = SearchAdapter { position, item -> }
 
         binding.etSearch.setText("")
-        binding.tvSearch.text="검색어를 입력해주세요"
+        binding.tvSearch.text=getString(R.string.search_fragment_put_value)
         binding.rvSearch.adapter = adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
         binding.tvSearchBtn.setOnClickListener {
@@ -126,7 +126,7 @@ class SearchFragment : Fragment() {
 
             }
             else{
-                binding.tvSearch.text="검색 결과가 없습니다."
+                binding.tvSearch.text= getString(R.string.search_fragment_no_value)
             }
         }
 }
